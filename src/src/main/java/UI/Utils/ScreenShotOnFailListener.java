@@ -5,6 +5,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import static UI.Utils.CommonUtils.addInfo;
+import static UI.Utils.CommonUtils.makeScreenshotAttachment;
 
 
 public class ScreenShotOnFailListener implements ITestListener {
@@ -22,7 +23,7 @@ public class ScreenShotOnFailListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         addError(result.getName()+"++++++++++++Test Failed. Something should be verified! Screenshot is taken++++++++++");
-        UI.Utils.CommonUtils.makeScreenshotAttachment("test_fail");
+        makeScreenshotAttachment("test_fail");
     }
 
     private void addError(String s) {

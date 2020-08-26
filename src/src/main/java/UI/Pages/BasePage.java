@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import static UI.Utils.BaseTest.getWait;
 import static UI.Utils.CommonUtils.addError;
 import static UI.Utils.WebDriverFactory.getDriver;
+import static org.openqa.selenium.support.PageFactory.initElements;
 
 
 public abstract class BasePage{
@@ -22,6 +23,11 @@ public abstract class BasePage{
 
     public void waitForSelected(WebElement element) {
         getWait().until(ExpectedConditions.elementToBeSelected(element));
+    }
+
+    public BasePage() {
+        initElements(getDriver(), this);
+
     }
 
     public BasePage click(WebElement element) {
