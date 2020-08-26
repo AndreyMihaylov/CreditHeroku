@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
+import static UI.Utils.Constans.HEADLESS;
 import static UI.Utils.Constans.IMP_WAIT_TIME_SEC;
 import static UI.Utils.Constans.WINDOW_SIZE;
 
@@ -117,7 +118,7 @@ public class WebDriverFactory {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("disable-infobars");
         options.addArguments(WINDOW_SIZE);
-        options.setHeadless(true);
+        options.setHeadless(HEADLESS);
         return options;
     }
 
