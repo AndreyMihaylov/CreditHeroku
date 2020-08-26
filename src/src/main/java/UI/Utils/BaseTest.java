@@ -11,11 +11,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.regex.Matcher;
 
+import static UI.Utils.CommonUtils.addInfo;
 import static UI.Utils.CommonUtils.getCurrentDateTime;
 import static UI.Utils.CommonUtils.setLogger;
 import static UI.Utils.Constans.EXP_WAIT_TIME_SEC;
 import static UI.Utils.Constans.URL_MAIN;
 import static UI.Utils.WebDriverFactory.*;
+
 
 public class BaseTest {
     private static WebDriverWait wait;
@@ -38,7 +40,7 @@ public class BaseTest {
     }
 
     public void open(String url) {
-        UI.Utils.CommonUtils.addInfo("Open "+ url);
+        addInfo("Open "+ url);
         getDriver().get(url);
     }
 

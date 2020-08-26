@@ -19,8 +19,7 @@ import java.util.regex.Matcher;
 
 import static UI.Utils.WebDriverFactory.getDriver;
 
-
-public class CommonUtils extends UI.Utils.BaseTest {
+public class CommonUtils extends BaseTest {
 
     public static Logger logger = null;
     private static final String folderPath = (System.getProperty("user.dir") + "/reports/tests/").replaceAll("/", Matcher.quoteReplacement(File.separator));

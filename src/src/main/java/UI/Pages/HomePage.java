@@ -2,41 +2,103 @@ package UI.Pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import java.util.List;
+import java.util.Optional;
 
-import static UI.Utils.WebDriverFactory.getDriver;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class HomePage extends BasePage {
 
-    @FindBy(id = "header-log-in")
-    WebElement logIn;
+    @FindBy(xpath = "//a[@href='/line_of_credits/new']")
+    private
+    WebElement newLineOfCredit;
 
-    @FindBy(xpath = "//span[contains(text(),'Log Out')]")
-    WebElement logOut;
+    @FindBy(xpath = "//a[contains(@href,'/line_of_credits') and contains(text(),'Show')]")
+    private
+    List<WebElement> showCredit;
 
-    @FindBy(id = "auth-login-modal")
-    WebElement loginWithEmail;
+    @FindBy(xpath = "//a[contains(@href,'/line_of_credits') and contains(text(),'Edit')]")
+    private
+    List<WebElement> editCredit;
 
-    @FindBy(xpath = "//input[@id='email-auth-modal']")
-    WebElement inputEmail;
+    @FindBy(xpath = "//tr//td[1]")
+    private
+    List<WebElement> apr;
 
-    @FindBy(xpath = "//input[@id='pwd-auth-modal']")
-    WebElement inputPassword;
+    @FindBy(xpath = "//tr//td[2]")
+    private
+    List<WebElement> creditLimit;
 
-    @FindBy(xpath = "//div[contains(@class,'t-toggleContainer')]")
-    WebElement extendCategories;
+    @FindBy(xpath = "//a[contains(@href,'/line_of_credits') and contains(text(),'Destroy')]")
+    private
+    WebElement destroyCredit;
 
-    @FindBy(xpath = "//div[contains(@class,'t-userProfile')]")
-    WebElement profile;
+    @FindBy(xpath = "//body[@class='line_of_credits index']")
+    WebElement homePageBody;
 
-    @FindBy(xpath = "//div[@id='hamburger-join']")
-    WebElement join;
-
-    public HomePage() {
-        initElements(getDriver(), this);
+    public WebElement getNewLineOfCredit() {
+        return newLineOfCredit;
     }
 
+    public List<WebElement> getCreditLimit() {
+        return creditLimit;
+    }
 
+    public List<WebElement> getShowCredit() {
+        return showCredit;
+    }
+
+    public CreditPage clickNewLineOfCredit() {
+        click(newLineOfCredit);
+        return new CreditPage();
+    }
+
+    public WebElement getHomePageBody() {
+        return homePageBody;
+    }
+
+    public String getLastApr(int number){
+        return apr.get(number).getText();
+    }
+
+    public String getLastApr(){
+        return getLastApr(apr.size()-1);
+    }
+
+    public String getLimit(int number){
+        return creditLimit.get(number).getText();
+    }
+
+    public String getLastLimit(){
+        return getLimit(apr.size()-1);
+    }
+
+    public Optional<CreditPage> clickShowLastCredit() {
+
+        int size = showCredit.size();
+        if (size != 0) {
+            click(showCredit.get(size - 1));
+            return Optional.of(new CreditPage());
+        }
+        return Optional.ofNullable(null);
+    }
+
+    public Optional<EditingLineOfCreditPage> clickEditLastCredit() {
+
+        int size = editCredit.size();
+        if (size != 0) {
+            click(editCredit.get(size - 1));
+            return Optional.of(new EditingLineOfCreditPage());
+        }
+        return Optional.ofNullable(null);
+    }
+
+    public Optional<NewLineOfCreditPage> clickNewCredit() {
+        if (newLineOfCredit.isDisplayed()) {
+            click(newLineOfCredit);
+            return Optional.of(new NewLineOfCreditPage());
+        }
+        return Optional.ofNullable(null);
+    }
 
 
 }
