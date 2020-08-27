@@ -132,7 +132,7 @@ public class WebDriverFactory {
     }
 
     public static void quitDriver() {
-        threadDriver.get().quit();
+        threadDriver.get().close();
         threadDriver.set(null);
     }
 

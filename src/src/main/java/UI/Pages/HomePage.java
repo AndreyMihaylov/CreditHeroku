@@ -2,6 +2,7 @@ package UI.Pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -56,30 +57,30 @@ public class HomePage extends BasePage {
         return homePageBody;
     }
 
-    public String getLastApr(int number){
+    public String getLastApr(int number) {
         return apr.get(number).getText();
     }
 
-    public String getLastApr(){
-        return getLastApr(apr.size()-1);
+    public String getLastApr() {
+        return getLastApr(apr.size() - 1);
     }
 
-    public String getLimit(int number){
+    public String getLimit(int number) {
         return creditLimit.get(number).getText();
     }
 
-    public String getLastLimit(){
-        return getLimit(apr.size()-1);
+    public String getLastLimit() {
+        return getLimit(apr.size() - 1);
     }
 
-    public Optional<CreditPage> clickShowLastCredit() {
+    public CreditPage clickShowLastCredit() {
 
         int size = showCredit.size();
         if (size != 0) {
             click(showCredit.get(size - 1));
-            return Optional.of(new CreditPage());
+            return new CreditPage();
         }
-        return Optional.ofNullable(null);
+        return null;
     }
 
     public Optional<EditingLineOfCreditPage> clickEditLastCredit() {
@@ -92,12 +93,11 @@ public class HomePage extends BasePage {
         return Optional.ofNullable(null);
     }
 
-    public Optional<NewLineOfCreditPage> clickNewCredit() {
-        if (newLineOfCredit.isDisplayed()) {
-            click(newLineOfCredit);
-            return Optional.of(new NewLineOfCreditPage());
-        }
-        return Optional.ofNullable(null);
+    public NewLineOfCreditPage clickNewCredit() {
+
+        click(newLineOfCredit);
+        return new NewLineOfCreditPage();
+
     }
 
 

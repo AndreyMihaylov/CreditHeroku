@@ -1,10 +1,12 @@
 package UI.Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static UI.Utils.WebDriverFactory.getDriver;
@@ -39,11 +41,14 @@ public class CreditPage extends BasePage {
     @FindBy(xpath = "//input[@id='transaction_amount']")
     WebElement amountInput;
 
-    @FindBy(xpath = "//input[@name='commit']']")
+    @FindBy(xpath = "//input[@name='commit']")
     WebElement saveTransactionButton;
 
     @FindBy(xpath = "//a[@href='/line_of_credits']")
     WebElement backToHomePage;
+
+    @FindBy(xpath = "//table[@id='transactions_table']/tbody/tr")
+    List<WebElement> transactionLines;
 
     public Float getApr() {
         return Float.valueOf(apr.getText().split(":")[1].replaceAll("%", "").trim());
@@ -69,28 +74,84 @@ public class CreditPage extends BasePage {
         return Float.valueOf(totalPayoffAt30days.getText().split(":")[1].replaceAll("[$,]", "").trim());
     }
 
-    public void selectType(Type type){
-        Select select = new Select(types);
-        select.selectByValue(type.toString());
+    public int getSizeOfTransactions() {
+        return transactionLines.size();
     }
 
-    public HomePage goBack(){
+    public int getDays() {
+        return transactionLines.size();
+    }
+
+    public int getTypes() {
+        return transactionLines.size();
+    }
+
+    public int getAmounts() {
+        return transactionLines.size();
+    }
+
+    public int getPrincipal() {
+        return transactionLines.size();
+    }
+
+    public CreditPage clickRemove(int index) {
+        transactionLines.get(index).findElement(By.xpath("//td[last()]")).click();
+        return this;
+    }
+
+    public CreditPage clickRemoveLast() {
+        transactionLines.get(transactionLines.size()-1).findElement(By.xpath("//td[last()]")).click();
+        return this;
+    }
+
+
+    public CreditPage selectType(Type type) {
+        Select select = new Select(types);
+        select.selectByValue(type.value);
+        return this;
+    }
+
+    public CreditPage fillOutAmount(String amount) {
+        type(amountInput, amount);
+        return this;
+    }
+
+    public CreditPage appliedAtDay(int days) {
+        Select select = new Select(day);
+        if (days > 0 && days < 31) {
+            select.selectByValue(String.valueOf(days));
+        } else {
+            select.selectByValue("30");
+        }
+        return this;
+    }
+
+    public CreditPage saveTransactionButton() {
+        click(saveTransactionButton);
+        sleep(1);
+        return this;
+    }
+
+
+    public HomePage goBack() {
         click(backToHomePage);
+        sleep(1);
         return new HomePage();
     }
 
-    enum Type {
+    public enum Type {
         DRAW("Draw"), PAYMENT("Payment");
 
         private final String value;
 
         Type(String value) {
-            this.value=value;
+            this.value = value;
         }
 
         public String getValue() {
             return value;
         }
     }
+
 
 }

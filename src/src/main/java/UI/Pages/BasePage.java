@@ -4,6 +4,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 import static UI.Utils.BaseTest.getWait;
 import static UI.Utils.CommonUtils.addError;
 import static UI.Utils.WebDriverFactory.getDriver;
