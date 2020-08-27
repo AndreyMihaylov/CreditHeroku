@@ -11,10 +11,8 @@ public class SmokeTest extends BaseTest {
     @Test
     protected void smokeShow(){
         HomePage homePage = new HomePage();
-        homePage.clickShowLastCredit().ifPresent(p -> {
-            p.goBack();
+        homePage.clickShowLastCredit().goBack();
             Assert.assertTrue(homePage.getHomePageBody().isDisplayed());
-        });
     }
 
     @Test
@@ -29,9 +27,7 @@ public class SmokeTest extends BaseTest {
     @Test
     protected void smokeNewCreditLine(){
         HomePage homePage = new HomePage();
-        homePage.clickNewCredit().ifPresent(p -> {
-            p.goBack();
+        homePage.clickNewCredit().goBack();
             Assert.assertTrue(homePage.getHomePageBody().isDisplayed());
-        });
     }
 }
