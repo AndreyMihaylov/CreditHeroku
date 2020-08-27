@@ -12,7 +12,7 @@ public class CreateNewCreditTest extends BaseTest {
 
     @Test
     @Parameters({"apr", "limit"})
-    protected void createNewCreditTest(@Optional("35.00") String apr, @Optional("1000") String limit) {
+    public void createNewCreditTest(@Optional("35.00") String apr, @Optional("1000") String limit) {
         HomePage homePage = new HomePage();
         int sizeOfCreditsBefore = homePage.getShowCredit().size();
         NewLineOfCreditPage creditPage = homePage.clickNewCredit();

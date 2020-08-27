@@ -7,9 +7,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static UI.Utils.WebDriverFactory.getDriver;
 
 public class CreditPage extends BasePage {
 
@@ -100,26 +97,27 @@ public class CreditPage extends BasePage {
     }
 
     public CreditPage clickRemoveLast() {
-        transactionLines.get(transactionLines.size()-1).findElement(By.xpath("//td[last()]")).click();
+        transactionLines.get(transactionLines.size() - 1).findElement(By.xpath("//td[last()]")).click();
         return this;
     }
 
 
-    public CreditPage selectType(Type type) {
+    private CreditPage selectType(Type type) {
         Select select = new Select(types);
         select.selectByValue(type.value);
         return this;
     }
 
-    public CreditPage fillOutAmount(String amount) {
+    private CreditPage fillOutAmount(String amount) {
         type(amountInput, amount);
         return this;
     }
 
-    public CreditPage appliedAtDay(int days) {
+    private CreditPage appliedAtDay(String days) {
+        int daysInt = Integer.valueOf(days);
         Select select = new Select(day);
-        if (days > 0 && days < 31) {
-            select.selectByValue(String.valueOf(days));
+        if (daysInt > 0 && daysInt < 31) {
+            select.selectByValue(String.valueOf(daysInt));
         } else {
             select.selectByValue("30");
         }
@@ -132,11 +130,54 @@ public class CreditPage extends BasePage {
         return this;
     }
 
-
     public HomePage goBack() {
         click(backToHomePage);
         sleep(1);
         return new HomePage();
+    }
+
+    public CreditPage fillOutTransaction(Type type, String amount, String days) {
+        int sizeOfCreditLines = transactionLines.size();
+        selectType(type)
+                .fillOutAmount(amount)
+                .appliedAtDay(days)
+                .saveTransactionButton();
+        while (transactionLines.size() - sizeOfCreditLines > 1) {
+            clickRemoveLast();
+        }
+        return this;
+    }
+
+    public float getInterestOfTransactions(String apr) {
+        float interest = 0;
+        for (int i = 0; i < transactionLines.size(); i++) {
+            float amount = Float.valueOf(getAmountOfTransactions(i).replaceAll("[$,]", "").trim());
+            if (getTypeOfTransactions(i).equals("Draw")) {
+                interest = interest + ((31 - Integer.valueOf(getDayOfTransactions(i))) * amount);
+            } else {
+                interest = interest - ((31 - Integer.valueOf(getDayOfTransactions(i))) * amount);
+            }
+
+        }
+
+        return interest*Float.valueOf(apr)/365/100;
+    }
+
+    private String getDayOfTransactions(int i) {
+        return transactionLines.get(1).findElements(By.xpath("//td[1]")).get(i).getText();
+    }
+
+    private String getTypeOfTransactions(int i) {
+        return transactionLines.get(1).findElements(By.xpath("//td[2]")).get(i).getText();
+    }
+
+    private String getAmountOfTransactions(int i) {
+        return transactionLines.get(1).findElements(By.xpath("//td[3]")).get(i).getText();
+    }
+
+    public Float creditAvailableFromTransactions() {
+        List<WebElement> list =transactionLines.get(1).findElements(By.xpath("//td[4]"));
+        return Float.valueOf(list.get(list.size()-1).getText().replaceAll("[$,]", "").trim());
     }
 
     public enum Type {

@@ -25,10 +25,7 @@ public class DrawPaymentRemoveTest extends BaseTest {
         while (creditAvailable.get(0) < creditAvailable.get(1) && i < 5) {
             int sizeBefore = creditPage.getSizeOfTransactions();
             if (creditPage != null) {
-                creditPage.selectType(DRAW)
-                        .appliedAtDay(Integer.valueOf(days))
-                        .fillOutAmount(amount)
-                        .saveTransactionButton();
+                creditPage.fillOutTransaction(DRAW, amount,days);
                 creditAvailable = creditPage.getCreditAvailable();
                 i++;
             }
@@ -46,10 +43,7 @@ public class DrawPaymentRemoveTest extends BaseTest {
         while (creditAvailable.get(0) >=0  && i < 5) {
             int sizeBefore = creditPage.getSizeOfTransactions();
             if (creditPage != null) {
-                creditPage.selectType(PAYMENT)
-                        .appliedAtDay(Integer.valueOf(days))
-                        .fillOutAmount(amount)
-                        .saveTransactionButton();
+                creditPage.fillOutTransaction(PAYMENT, amount,days);
                 creditAvailable = creditPage.getCreditAvailable();
                 i++;
             }
