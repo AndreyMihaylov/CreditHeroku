@@ -22,7 +22,11 @@ import static UI.Utils.WebDriverFactory.getDriver;
 public class CommonUtils extends BaseTest {
 
     public static Logger logger = null;
-    private static final String folderPath = (System.getProperty("user.dir") + "/reports/tests/").replaceAll("/", Matcher.quoteReplacement(File.separator));
+    private static String absolutePath = System.getProperty("user.dir");
+    private static String pathToResources = absolutePath + "/src/main/resources/";
+    private static String pathToReports = absolutePath + "/src/main/resources/";
+
+    private static final String folderPath = (pathToReports).replaceAll("/", Matcher.quoteReplacement(File.separator));
 
     public static void makeScreenshotAttachment(String namePrefix) {
         TakesScreenshot scrShot =((TakesScreenshot)getDriver());
@@ -87,6 +91,11 @@ public class CommonUtils extends BaseTest {
         String date = formatter.format(currentDate.getTime()).replace("/", "_");
         date = date.replace(":", "_");
         return date;
+    }
+
+
+    public static String getPathToResources(String fileName) {
+        return (pathToResources + fileName).replaceAll("/", Matcher.quoteReplacement(File.separator));
     }
 
 }
