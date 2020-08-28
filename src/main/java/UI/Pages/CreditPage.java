@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+import static UI.Utils.CommonUtils.addInfo;
+
 public class CreditPage extends BasePage {
 
     @FindBy(xpath = "//strong[contains(text(),'Apr:')]//..")
@@ -52,6 +54,7 @@ public class CreditPage extends BasePage {
     }
 
     public ArrayList<Float> getCreditAvailable() {
+        waitForVisability(creditAvailable);
         String str = creditAvailable.getText().split(":")[1].trim();
         ArrayList<Float> listAvailableOf = new ArrayList<>();
         listAvailableOf.add(Float.valueOf(str.split("of")[0].replaceAll("[$, ]", "")));
@@ -98,6 +101,7 @@ public class CreditPage extends BasePage {
 
     public CreditPage clickRemoveLast() {
         transactionLines.get(transactionLines.size() - 1).findElement(By.xpath("//td[last()]")).click();
+        sleep(1);
         return this;
     }
 
@@ -105,11 +109,14 @@ public class CreditPage extends BasePage {
     private CreditPage selectType(Type type) {
         Select select = new Select(types);
         select.selectByValue(type.value);
+        addInfo("Selected "+ type.getValue() + " in dropdown: "+ types);
         return this;
     }
 
     private CreditPage fillOutAmount(String amount) {
         type(amountInput, amount);
+        addInfo("Fill out amount: " + amount);
+
         return this;
     }
 
@@ -118,8 +125,12 @@ public class CreditPage extends BasePage {
         Select select = new Select(day);
         if (daysInt > 0 && daysInt < 31) {
             select.selectByValue(String.valueOf(daysInt));
+            addInfo("Selected "+ days + " in dropdown: "+ day);
+
         } else {
             select.selectByValue("30");
+            addInfo("Selected 30 in dropdown: "+ day +" because was providet wrong day: "+ days);
+
         }
         return this;
     }
@@ -131,12 +142,14 @@ public class CreditPage extends BasePage {
     }
 
     public HomePage goBack() {
+        sleep(1);
         click(backToHomePage);
         sleep(1);
         return new HomePage();
     }
 
     public CreditPage fillOutTransaction(Type type, String amount, String days) {
+        addInfo("-------------START FILL OUT TRANSACTION");
         int sizeOfCreditLines = transactionLines.size();
         selectType(type)
                 .fillOutAmount(amount)
@@ -145,6 +158,8 @@ public class CreditPage extends BasePage {
         while (transactionLines.size() - sizeOfCreditLines > 1) {
             clickRemoveLast();
         }
+        addInfo("-------------FINISHED FILL OUT TRANSACTION");
+
         return this;
     }
 

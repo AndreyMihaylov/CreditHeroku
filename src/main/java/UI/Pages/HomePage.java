@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Optional;
 
+import static UI.Utils.CommonUtils.addInfo;
+
 
 public class HomePage extends BasePage {
 
@@ -83,14 +85,14 @@ public class HomePage extends BasePage {
         return null;
     }
 
-    public Optional<EditingLineOfCreditPage> clickEditLastCredit() {
+    public EditingLineOfCreditPage clickEditLastCredit() {
 
         int size = editCredit.size();
         if (size != 0) {
             click(editCredit.get(size - 1));
-            return Optional.of(new EditingLineOfCreditPage());
+            return new EditingLineOfCreditPage();
         }
-        return Optional.ofNullable(null);
+        return null;
     }
 
     public NewLineOfCreditPage clickNewCredit() {

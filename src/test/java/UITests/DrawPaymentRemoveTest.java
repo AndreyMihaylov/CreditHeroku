@@ -4,6 +4,7 @@ import UI.Pages.CreditPage;
 import UI.Pages.HomePage;
 import UI.Utils.BaseTest;
 
+import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,11 +26,11 @@ public class DrawPaymentRemoveTest extends BaseTest {
         while (creditAvailable.get(0) < creditAvailable.get(1) && i < 5) {
             int sizeBefore = creditPage.getSizeOfTransactions();
             if (creditPage != null) {
-                creditPage.fillOutTransaction(DRAW, amount,days);
+                creditPage.fillOutTransaction(DRAW, amount, days);
                 creditAvailable = creditPage.getCreditAvailable();
                 i++;
             }
-//            Assert.assertTrue(creditPage.getSizeOfTransactions()-sizeBefore==1);
+            Assert.assertTrue(creditPage.getSizeOfTransactions() - sizeBefore == 1);
         }
     }
 
@@ -40,14 +41,14 @@ public class DrawPaymentRemoveTest extends BaseTest {
         CreditPage creditPage = homePage.clickShowLastCredit();
         ArrayList<Float> creditAvailable = creditPage.getCreditAvailable();
         int i = 0;
-        while (creditAvailable.get(0) >=0  && i < 5) {
+        while (creditAvailable.get(0) > 0 && i < 5) {
             int sizeBefore = creditPage.getSizeOfTransactions();
             if (creditPage != null) {
-                creditPage.fillOutTransaction(PAYMENT, amount,days);
+                creditPage.fillOutTransaction(PAYMENT, amount, days);
                 creditAvailable = creditPage.getCreditAvailable();
                 i++;
             }
-            //           Assert.assertTrue(creditPage.getSizeOfTransactions()-sizeBefore==1);
+            Assert.assertTrue(creditPage.getSizeOfTransactions() - sizeBefore == 1);
         }
     }
 
@@ -55,13 +56,13 @@ public class DrawPaymentRemoveTest extends BaseTest {
     protected void removeTest() {
         HomePage homePage = new HomePage();
         CreditPage creditPage = homePage.clickShowLastCredit();
-        while(creditPage.getSizeOfTransactions()>0)  {
+        while (creditPage.getSizeOfTransactions() > 0) {
             int sizeBefore = creditPage.getSizeOfTransactions();
             if (creditPage != null) {
                 creditPage.clickRemoveLast();
             }
 
-            //           Assert.assertTrue(creditPage.getSizeOfTransactions()-sizeBefore==-1);
+            Assert.assertTrue(creditPage.getSizeOfTransactions() - sizeBefore == -1);
         }
     }
 }
