@@ -1,11 +1,14 @@
 package UI.Pages;
 
+import UI.Utils.BaseTest;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static UI.Utils.BaseTest.getWait;
 import static UI.Utils.CommonUtils.addError;
+import static UI.Utils.CommonUtils.addInfo;
 import static UI.Utils.WebDriverFactory.getDriver;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
@@ -13,11 +16,16 @@ import static org.openqa.selenium.support.PageFactory.initElements;
 public abstract class BasePage{
 
 
+    @FindBy(xpath = "//div[@id='error_explanation']")
+    WebElement errorWindow;
+
+
     public void waitForVisability(WebElement element) {
         getWait().until(ExpectedConditions.visibilityOf(element));
     }
 
     public void waitForClick(WebElement element) {
+        getWait().until(ExpectedConditions.visibilityOfAllElements(element));
         getWait().until(ExpectedConditions.elementToBeClickable(element));
     }
 
@@ -27,12 +35,14 @@ public abstract class BasePage{
 
     public BasePage() {
         initElements(getDriver(), this);
+        addInfo("Redirect to "+ this.getClass().getSimpleName());
 
     }
 
     public BasePage click(WebElement element) {
 
         try {
+            addInfo("Click on " + "'"+element.getText().toUpperCase()+ "' on "+ this.getClass().getSimpleName());
             waitForClick(element);
             element.click();
         } catch (Exception e) {
@@ -62,5 +72,10 @@ public abstract class BasePage{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean errorWindowIsDisplayed(){
+        addInfo("Verify of error window is appeared");
+        return errorWindow.isDisplayed();
     }
 }

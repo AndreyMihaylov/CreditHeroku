@@ -3,6 +3,8 @@ package UI.Pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import static UI.Utils.CommonUtils.addInfo;
+
 public class NewLineOfCreditPage extends BasePage implements Credit{
 
     @FindBy(id = "line_of_credit_apr")
@@ -24,12 +26,14 @@ public class NewLineOfCreditPage extends BasePage implements Credit{
 
     @Override
     public NewLineOfCreditPage fillOutApr(String apr) {
+        addInfo("Fill out apr: " + apr);
         type(aprInput,apr);
         return this;
     }
 
     @Override
     public NewLineOfCreditPage fillOutCredit(String limit) {
+        addInfo("Fill out limit: " + limit);
         type(creditLimit,limit);
         return this;
     }

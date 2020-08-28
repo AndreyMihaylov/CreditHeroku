@@ -18,10 +18,8 @@ public class SmokeTest extends BaseTest {
     @Test
     protected void smokeEdit(){
         HomePage homePage = new HomePage();
-        homePage.clickEditLastCredit().ifPresent(p -> {
-            p.goBack();
+        homePage.clickEditLastCredit().goBack();
             Assert.assertTrue(homePage.getHomePageBody().isDisplayed());
-        });
     }
 
     @Test
